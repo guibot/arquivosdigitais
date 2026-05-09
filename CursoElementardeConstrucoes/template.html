@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enciclopédia Prática da Construção Civil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --sidebar-w: 280px;
+  --topbar-h: 52px;
+  --bg: #f2f1ee;
+  --bg2: #e8e7e3;
+  --sidebar-bg: #1e1e1e;
+  --sidebar-text: #e0e0e0;
+  --sidebar-muted: #888;
+  --sidebar-active-bg: rgba(255,255,255,0.07);
+  --sidebar-active-border: #999;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --border: #d4d3cf;
+  --card: #faf9f7;
+  --accent: #3a3a3a;
+  --link: #2c5282;
+  --mark-bg: #ffe066;
+  --mark-color: #1a1a1a;
+  --shadow: rgba(0,0,0,0.08);
+}
+[data-theme=dark] {
+  --bg: #1a1a1a;
+  --bg2: #222;
+  --sidebar-bg: #111;
+  --sidebar-text: #ddd;
+  --sidebar-muted: #666;
+  --sidebar-active-bg: rgba(255,255,255,0.06);
+  --sidebar-active-border: #888;
+  --text: #e0e0e0;
+  --text-muted: #888;
+  --border: #333;
+  --card: #1e1e1e;
+  --accent: #bbb;
+  --link: #7aa7d4;
+  --mark-bg: #856404;
+  --mark-color: #fff8e1;
+  --shadow: rgba(0,0,0,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;transition:background .25s,color .25s}
+
+/* Sidebar */
+#sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:var(--sidebar-bg);color:var(--sidebar-text);
+  display:flex;flex-direction:column;z-index:100;
+  transition:transform .3s ease;overflow:hidden;
+}
+#sidebar-inner{overflow-y:auto;flex:1;padding-bottom:20px}
+#sidebar-inner::-webkit-scrollbar{width:4px}
+#sidebar-inner::-webkit-scrollbar-thumb{background:#444}
+.sidebar-header{padding:24px 20px 16px;border-bottom:1px solid #2a2a2a;flex-shrink:0}
+.sidebar-logo{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sidebar-muted);margin-bottom:6px}
+.sidebar-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;line-height:1.4;color:var(--sidebar-text)}
+.nav-topic{border-bottom:1px solid #2a2a2a}
+.nav-topic-label{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;color:var(--sidebar-muted);cursor:pointer;
+  transition:background .15s;user-select:none;
+}
+.nav-topic-label:hover{background:rgba(255,255,255,0.04)}
+.nav-topic-arrow{font-size:9px;transition:transform .2s}
+.nav-topic.open .nav-topic-arrow{transform:rotate(90deg)}
+.nav-fascicles{display:none}
+.nav-topic.open .nav-fascicles{display:block}
+.nav-fas{
+  display:block;padding:7px 16px 7px 28px;font-size:12.5px;
+  color:#aaa;cursor:pointer;transition:all .15s;
+  border-left:2px solid transparent;line-height:1.4;
+}
+.nav-fas:hover{color:var(--sidebar-text);background:var(--sidebar-active-bg)}
+.nav-fas.active{color:var(--sidebar-text);border-left-color:var(--sidebar-active-border);background:var(--sidebar-active-bg)}
+.nav-fas-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sidebar-muted);margin-right:6px}
+
+/* Main */
+#main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+/* Topbar */
+#topbar{
+  position:sticky;top:0;z-index:50;height:var(--topbar-h);
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:0 32px;display:flex;align-items:center;gap:16px;
+  backdrop-filter:blur(8px);transition:background .25s;
+}
+#breadcrumb{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#breadcrumb span{color:var(--text)}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+#search-wrap{position:relative}
+#search{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:6px 12px 6px 32px;font-size:13px;color:var(--text);
+  font-family:'DM Sans',sans-serif;outline:none;width:220px;
+  transition:border-color .2s,width .2s;
+}
+#search:focus{border-color:var(--accent);width:280px}
+#search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px;pointer-events:none}
+#search-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);min-width:60px;text-align:right}
+#theme-btn{
+  background:var(--bg2);border:1px solid var(--border);border-radius:20px;
+  padding:5px 12px;cursor:pointer;font-size:12px;color:var(--text-muted);
+  transition:all .2s;white-space:nowrap;
+}
+#theme-btn:hover{border-color:var(--accent);color:var(--text)}
+#menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:20px;color:var(--text);padding:4px 8px}
+
+/* Search results */
+#search-results{
+  display:none;position:absolute;top:calc(var(--topbar-h));right:32px;
+  width:440px;max-height:480px;overflow-y:auto;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;box-shadow:0 8px 32px var(--shadow);z-index:200;
+}
+#search-results.visible{display:block}
+.sr-header{padding:10px 16px 8px;font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;border-bottom:1px solid var(--border)}
+.sr-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--bg2)}
+.sr-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.sr-snippet{font-size:12px;color:var(--text-muted);line-height:1.5}
+.sr-snippet mark{background:var(--mark-bg);color:var(--mark-color);border-radius:2px;padding:0 1px}
+.sr-empty{padding:20px 16px;font-size:13px;color:var(--text-muted);text-align:center}
+
+/* Content */
+#content-wrap{flex:1;padding:48px 56px 80px;max-width:860px;margin:0 auto;width:100%}
+#content h1{font-family:'Inter',sans-serif;font-size:28px;font-weight:700;margin:0 0 20px;color:var(--text);line-height:1.3}
+#content h2{font-family:'Inter',sans-serif;font-size:20px;font-weight:600;margin:36px 0 14px;color:var(--text);padding-bottom:8px;border-bottom:1px solid var(--border)}
+#content h3{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;margin:28px 0 10px;color:var(--text)}
+#content h4,#content h5,#content h6{font-size:14px;font-weight:600;margin:20px 0 8px;color:var(--text-muted)}
+#content p{font-size:15px;line-height:1.75;margin-bottom:14px;color:var(--text)}
+#content ul,#content ol{margin:0 0 14px 24px;font-size:15px;line-height:1.75}
+#content li{margin-bottom:4px}
+#content hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+#content figure{margin:20px 0;text-align:center}
+#content figure img{max-width:100%;height:auto;border-radius:4px;box-shadow:0 2px 12px var(--shadow)}
+#content strong{font-weight:600}
+#content code{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg2);padding:1px 5px;border-radius:3px}
+.table-wrap{overflow-x:auto;margin:20px 0}
+.table-wrap table{border-collapse:collapse;width:100%;font-size:13px}
+.table-wrap th,.table-wrap td{padding:8px 12px;border:1px solid var(--border);text-align:left;vertical-align:top}
+.table-wrap th{background:var(--bg2);font-weight:600;font-family:'Inter',sans-serif}
+.table-wrap tr:nth-child(even) td{background:var(--bg2)}
+
+/* Welcome screen */
+#welcome{text-align:center;padding:80px 40px}
+#welcome h1{font-family:'Inter',sans-serif;font-size:32px;font-weight:700;margin-bottom:12px}
+#welcome p{font-size:15px;color:var(--text-muted);margin-bottom:8px}
+#welcome .chip{display:inline-block;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);margin:4px}
+
+/* Highlight */
+mark{background:var(--mark-bg);color:var(--mark-color);border-radius:2px;padding:0 1px}
+
+/* Scrollbar */
+#search-results::-webkit-scrollbar{width:4px}
+#search-results::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* Mobile */
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  #menu-btn{display:block}
+  #content-wrap{padding:32px 20px 60px}
+  #search-results{right:16px;width:calc(100vw - 32px)}
+  #search{width:160px}
+  #search:focus{width:200px}
+}
+
+</style>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Enciclopédia Prática</div>
+    <div class="sidebar-title">Construção Civil</div>
+  </div>
+  <div id="sidebar-inner"></div>
+</aside>
+
+<div id="main">
+  <div id="topbar">
+    <button id="menu-btn" aria-label="Menu">☰</button>
+    <div id="breadcrumb">Seleccione um fascículo</div>
+    <div class="topbar-right">
+      <span id="search-count"></span>
+      <div id="search-wrap">
+        <span id="search-icon">⌕</span>
+        <input id="search" type="search" placeholder="Pesquisar…" autocomplete="off">
+      </div>
+      <button id="theme-btn" onclick="toggleTheme()">☾ Dark</button>
+    </div>
+  </div>
+
+  <div id="search-results"></div>
+
+  <div id="content-wrap">
+    <div id="content">
+      <div id="welcome">
+        <h1>Enciclopédia Prática da Construção Civil</h1>
+        <p>F. Pereira da Costa — 30 fascículos</p>
+        <p style="margin-top:16px;color:var(--text-muted);font-size:13px">Seleccione um fascículo no índice lateral ou use a pesquisa.</p>
+        <div style="margin-top:24px">
+<span class="chip">01 — Asnas de madeira</span>
+<span class="chip">02 — Asnas de madeira</span>
+<span class="chip">03 — Escadas de madeira</span>
+<span class="chip">04 — Escadas de madeira</span>
+<span class="chip">05 — Escadas de madeira</span>
+<span class="chip">06 — Escadas de madeira</span>
+<span class="chip">07 — Pavimentos de madeira</span>
+<span class="chip">08 — Madeiramentos e Telhados</span>
+<span class="chip">09 — Madeiramentos e Telhados</span>
+<span class="chip">10 — Madeiramentos e Telhados</span>
+<span class="chip">11 — Madeiramentos e Telhados</span>
+<span class="chip">12 — Tectos Diversos</span>
+<span class="chip">13 — Obras de Alvenaria</span>
+<span class="chip">14 — Obras de Alvenaria</span>
+<span class="chip">15 — Arcos e Abobodas</span>
+<span class="chip">16 — Obras de Cantaria</span>
+<span class="chip">17 — Obras de Cantaria</span>
+<span class="chip">18 — Pavimentos Diversos</span>
+<span class="chip">19 — Vaos de Janelas</span>
+<span class="chip">20 — Vaos de Janelas</span>
+<span class="chip">21 — Portas Exteriores</span>
+<span class="chip">22 — Portas Interiores</span>
+<span class="chip">23 — Instalacoes Sanitarias</span>
+<span class="chip">24 — Instalacoes Sanitarias</span>
+<span class="chip">25 — Instalacoes Sanitarias</span>
+<span class="chip">26 — Interiores e Exteriores</span>
+<span class="chip">27 — Chamines e Aquecimento</span>
+<span class="chip">28 — Trabalhos de Ferro</span>
+<span class="chip">29 — Ventilacao e Acustica</span>
+<span class="chip">30 — Diversos Trabalhos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const DATA = {
+  topics: [
+    {
+      label: "Topic Label",
+      fascicles: [
+        {
+          id: "f01",
+          num: 1,
+          title: "Fascicle Title",
+          html: "<h1>Fascicle Title</h1><p>Content here.</p>",
+          text: "Fascicle Title Content here."
+        }
+      ]
+    }
+  ]
+};
+
+// ── theme ──────────────────────────────────────────────────────────────────
+const THEME_KEY = 'epcc_theme';
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  document.getElementById('theme-btn').textContent = t === 'dark' ? '☀ Light' : '☾ Dark';
+}
+function toggleTheme() {
+  const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(t);
+  localStorage.setItem(THEME_KEY, t);
+}
+applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+
+// ── sidebar ────────────────────────────────────────────────────────────────
+function buildNav() {
+  const inner = document.getElementById('sidebar-inner');
+  DATA.topics.forEach(topic => {
+    const el = document.createElement('div');
+    el.className = 'nav-topic';
+    el.innerHTML = `
+      <div class="nav-topic-label" onclick="toggleTopic(this.parentElement)">
+        ${topic.label}
+        <span class="nav-topic-arrow">▶</span>
+      </div>
+      <div class="nav-fascicles">
+        ${topic.fascicles.map(f =>
+          `<div class="nav-fas" data-id="${f.id}" onclick="showFascicle('${f.id}')">
+            <span class="nav-fas-num">${String(f.num).padStart(2,'0')}</span>${f.title}
+          </div>`
+        ).join('')}
+      </div>`;
+    inner.appendChild(el);
+  });
+}
+
+function toggleTopic(el) {
+  el.classList.toggle('open');
+}
+
+// ── fascicle display ───────────────────────────────────────────────────────
+let currentId = null;
+
+function findFascicle(id) {
+  for (const t of DATA.topics)
+    for (const f of t.fascicles)
+      if (f.id === id) return { fascicle: f, topic: t };
+  return null;
+}
+
+function showFascicle(id, highlight) {
+  const found = findFascicle(id);
+  if (!found) return;
+  const { fascicle, topic } = found;
+  currentId = id;
+
+  document.getElementById('content').innerHTML = fascicle.html;
+  document.getElementById('breadcrumb').innerHTML =
+    `${topic.label} <span>/ ${fascicle.title}</span>`;
+
+  if (highlight) highlightContent(highlight);
+
+  // active state
+  document.querySelectorAll('.nav-fas').forEach(el => {
+    el.classList.toggle('active', el.dataset.id === id);
+  });
+
+  // ensure topic open
+  const navFas = document.querySelector(`.nav-fas[data-id="${id}"]`);
+  if (navFas) navFas.closest('.nav-topic').classList.add('open');
+
+  // close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+
+  window.scrollTo(0, 0);
+
+  // scroll highlight into view
+  if (highlight) {
+    const firstMark = document.querySelector('#content mark');
+    if (firstMark) firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// ── search ─────────────────────────────────────────────────────────────────
+function escapeRe(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function doSearch(q) {
+  const panel = document.getElementById('search-results');
+  const countEl = document.getElementById('search-count');
+  q = q.trim();
+
+  if (!q) {
+    panel.classList.remove('visible');
+    countEl.textContent = '';
+    return;
+  }
+
+  const re = new RegExp(escapeRe(q), 'gi');
+  const results = [];
+
+  for (const topic of DATA.topics) {
+    for (const f of topic.fascicles) {
+      const matches = [...f.text.matchAll(re)];
+      if (matches.length === 0) continue;
+      // Build snippet around first match
+      const idx = matches[0].index;
+      const start = Math.max(0, idx - 60);
+      const end = Math.min(f.text.length, idx + q.length + 60);
+      let snippet = f.text.slice(start, end);
+      if (start > 0) snippet = '…' + snippet;
+      if (end < f.text.length) snippet += '…';
+      snippet = snippet.replace(re, m => `<mark>${m}</mark>`);
+      results.push({ f, snippet, count: matches.length });
+    }
+  }
+
+  countEl.textContent = results.length ? `${results.length} found` : '';
+
+  if (!results.length) {
+    panel.innerHTML = `<div class="sr-empty">No results for "<strong>${escapeRe(q)}</strong>"</div>`;
+    panel.classList.add('visible');
+    return;
+  }
+
+  const items = results.map(r =>
+    `<div class="sr-item" onclick="goTo('${r.f.id}', searchInput().value)">
+      <div class="sr-title">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);margin-right:6px">${String(r.f.num).padStart(2,'0')}</span>
+        ${r.f.title}
+        <span style="font-size:10px;color:var(--text-muted);margin-left:8px">${r.count} match${r.count>1?'es':''}</span>
+      </div>
+      <div class="sr-snippet">${r.snippet}</div>
+    </div>`
+  ).join('');
+
+  panel.innerHTML = `<div class="sr-header">${results.length} result${results.length>1?'s':''}</div>${items}`;
+  panel.classList.add('visible');
+}
+
+function searchInput() {
+  return document.getElementById('search');
+}
+
+function goTo(id, q) {
+  document.getElementById('search-results').classList.remove('visible');
+  showFascicle(id, q);
+}
+
+// ── highlight in content ───────────────────────────────────────────────────
+function highlightContent(term) {
+  const content = document.getElementById('content');
+  const re = new RegExp(escapeRe(term), 'gi');
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    if (!re.test(node.nodeValue)) return;
+    re.lastIndex = 0;
+    const span = document.createElement('span');
+    span.innerHTML = node.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(re, m => `<mark>${m}</mark>`);
+    node.parentNode.replaceChild(span, node);
+  });
+}
+
+// ── init ───────────────────────────────────────────────────────────────────
+buildNav();
+
+// open first topic by default
+const firstTopic = document.querySelector('.nav-topic');
+if (firstTopic) firstTopic.classList.add('open');
+
+let searchTimer;
+document.getElementById('search').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => doSearch(e.target.value), 200);
+});
+
+document.addEventListener('click', e => {
+  if (!document.getElementById('search-wrap').contains(e.target) &&
+      !document.getElementById('search-results').contains(e.target)) {
+    document.getElementById('search-results').classList.remove('visible');
+  }
+});
+
+document.getElementById('search').addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('search-results').classList.remove('visible');
+    document.getElementById('search').value = '';
+    document.getElementById('search-count').textContent = '';
+  }
+});
+
+document.getElementById('menu-btn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+</script>
+</body>
+</html>

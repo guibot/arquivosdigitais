@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fff;
+      color: #000;
+      font-family: Georgia, serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #000;
+      padding-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+    }
+
+    .intro {
+      margin-bottom: 50px;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #000;
+      display: block;
+    }
+
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #e0e0e0;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: normal;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #444;
+    }
+
+    .card a:hover .thumbnail {
+      background: #c8c8c8;
+    }
+
+    .card a:hover h2 {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 60px;
+      border-top: 1px solid #000;
+      padding-top: 16px;
+      font-size: 0.75rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Título do Site</h1>
+  </header>
+
+  <p class="intro">
+    Breve descrição do site ou projecto. Uma ou duas frases que contextualizam
+    o que o visitante vai encontrar aqui.
+  </p>
+
+  <div class="grid">
+
+    <div class="card">
+      <a href="EnciclopediaPraticaConstrucaoCivil/index.html">
+        <div class="thumbnail">
+          <!-- substituir por: <img src="thumb1.jpg" alt="Página 1"> -->
+          imagem 1
+        </div>
+        <h2>Título Página 1</h2>
+        <p>Breve descrição do conteúdo desta página.</p>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="CursoElementardeConstrucoes/index.html">
+        <div class="thumbnail">
+          <!-- substituir por: <img src="thumb2.jpg" alt="Página 2"> -->
+          imagem 2
+        </div>
+        <h2>Título Página 2</h2>
+        <p>Breve descrição do conteúdo desta página.</p>
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026
+  </footer>
+
+</body>
+</html>
