@@ -1,4 +1,4 @@
-# Arquivo de Construção Civil
+# Arquivos Digitais de Construção Civil
 
 Projecto experimental que explora como tecnologia OCR pode converter documentos históricos de construção civil em recursos digitais navegáveis e pesquisáveis.
 
