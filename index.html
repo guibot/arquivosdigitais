@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site</title>
+  <title>Arquivos Digitais</title>
   <style>
     * {
       margin: 0;
@@ -53,7 +53,7 @@
 
     .thumbnail {
       width: 100%;
-      aspect-ratio: 4/3;
+      aspect-ratio: 4/4;
       background: #e0e0e0;
       border: 1px solid #000;
       display: flex;
@@ -104,42 +104,53 @@
 <body>
 
   <header>
-    <h1>Título do Site</h1>
+    <h1>Arquivos Digitais</h1>
   </header>
-
-  <p class="intro">
-    Breve descrição do site ou projecto. Uma ou duas frases que contextualizam
-    o que o visitante vai encontrar aqui.
-  </p>
 
   <div class="grid">
 
     <div class="card">
       <a href="EnciclopediaPraticaConstrucaoCivil/index.html">
         <div class="thumbnail">
-          <!-- substituir por: <img src="thumb1.jpg" alt="Página 1"> -->
-          imagem 1
+          <img src="ecc.webp">
         </div>
-        <h2>Título Página 1</h2>
-        <p>Breve descrição do conteúdo desta página.</p>
+        <h2>Enciclopédia Prática da Construção Civil</h2>
+        <p>Edição do Autor F. Pereira da Costa - Distribuição da Portugália Editora</p>
       </a>
     </div>
 
     <div class="card">
       <a href="CursoElementardeConstrucoes/index.html">
         <div class="thumbnail">
-          <!-- substituir por: <img src="thumb2.jpg" alt="Página 2"> -->
-          imagem 2
+          <img src="epcc.webp">
         </div>
-        <h2>Título Página 2</h2>
-        <p>Breve descrição do conteúdo desta página.</p>
+        <h2>Curso Elementar de Construccoes</h2>
+        <p>Elaborado Segundo o Programa da Escola Central da Mesma Arma - Por Luiz Augusto Leitão - Tenente do estado maior de engenharia</p>
       </a>
     </div>
 
   </div>
+  <br><br><br>
+  <p class="intro">
+    O objectivo deste projecto consiste na exploração de tecnologia <a href="https://pt.wikipedia.org/wiki/Reconhecimento_%C3%B3tico_de_caracteres">OCR (Optical Character Recognition)</a>, para converter documentos históricos de construção civil em recursos digitais navegáveis e pesquisáveis.
+    <br><br>
+    O texto foi extraído automaticamente a partir de scans de documentos originais dos anos 50 e apresenta ainda artefactos de OCR — erros diversos, caracteres mal reconhecidos e glitches tipográficos que resultam da qualidade dos scans originais. 
+    <br><br>
+    O texto foi extraído automaticamente com <a href="https://github.com/datalab-to/marker">Marker</a>, um modelo OCR open source.
+    <br><br>
+    O projecto encontra-se em desenvolvimento activo, nomeadamente na optimização dos ficheiros .html, correção ortográfica, e layout gráfico.
+  </p>
+  <p class="intro fontes">
+    <strong>Fontes:</strong><br>
+    Curso Elementar de Construcções:<br>
+    <a href="purl.pt/14756">Biblioteca Nacional de Portugal </a><br>
+    <br>
+    Enciclopédia Prática da Construção Civil:<br>
+    <a href="satae.pt/enciclopedia">SATAE</a><br>
+  </p>
 
   <footer>
-    &copy; 2026
+    Projecto co-criado com <a href="https://claude.ai">Claude</a> e orquestrado por <a href="https://guilhermemartins.net">Guilherme Martins</a>
   </footer>
 
 </body>
